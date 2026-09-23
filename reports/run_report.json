@@ -1,0 +1,384 @@
+{
+  "task": "Design a test plan for a login API.",
+  "metrics": {
+    "rework_rate": 0.2,
+    "critic_acceptance_rate": 0.8,
+    "end_to_end_success": true,
+    "avg_iterations_per_subtask": 1.25,
+    "total_reviews": 5,
+    "total_subtasks": 4
+  },
+  "transcript": {
+    "task": "Design a test plan for a login API.",
+    "plan": [
+      {
+        "id": "auth-flows",
+        "title": "Authentication flows",
+        "description": "Cover the core login API authentication flows: successful login with valid credentials, logout invalidating the session token, refreshing an expired access token with a refresh token, and the password reset flow issuing a time-limited token.",
+        "acceptance_criteria": {
+          "min_test_cases": 4,
+          "required_sections": [
+            "Test Cases",
+            "Objective"
+          ],
+          "required_keywords": [
+            "token",
+            "logout"
+          ]
+        }
+      },
+      {
+        "id": "negative-edge",
+        "title": "Negative and edge cases",
+        "description": "Cover negative and edge cases for the login API: wrong password returns 401 without leaking which field was wrong, locked accounts return 403 with an unlock flow, expired session tokens return 401 with a clear error code, and empty or missing fields return 400 validation errors.",
+        "acceptance_criteria": {
+          "min_test_cases": 4,
+          "required_sections": [
+            "Test Cases",
+            "Objective"
+          ],
+          "required_keywords": [
+            "401",
+            "400"
+          ]
+        }
+      },
+      {
+        "id": "security",
+        "title": "Security tests",
+        "description": "Cover security tests for the login API: SQL injection in the username field must be neutralized, rate limiting must block brute-force attempts, repeated failures must trigger account lockout, and a fresh session id must be issued after login to prevent session fixation.",
+        "acceptance_criteria": {
+          "min_test_cases": 4,
+          "required_sections": [
+            "Test Cases",
+            "Objective"
+          ],
+          "required_keywords": [
+            "sql injection",
+            "rate limiting"
+          ]
+        },
+        "hard": true
+      },
+      {
+        "id": "performance",
+        "title": "Performance tests",
+        "description": "Cover performance tests for the login API: p95 login latency under 500ms at 100 concurrent users, sustained throughput of 1000 logins per minute without errors, token refresh staying within the latency budget under load, and graceful degradation with 503 plus Retry-After when the service is overloaded.",
+        "acceptance_criteria": {
+          "min_test_cases": 4,
+          "required_sections": [
+            "Test Cases",
+            "Objective"
+          ],
+          "required_keywords": [
+            "latency",
+            "throughput"
+          ]
+        }
+      }
+    ],
+    "messages": [
+      {
+        "seq": 1,
+        "sender": "orchestrator",
+        "recipient": "planner",
+        "type": "run_started",
+        "payload": {
+          "task": "Design a test plan for a login API.",
+          "max_rework": 2
+        }
+      },
+      {
+        "seq": 2,
+        "sender": "planner",
+        "recipient": "orchestrator",
+        "type": "plan_proposed",
+        "payload": {
+          "subtask_ids": [
+            "auth-flows",
+            "negative-edge",
+            "security",
+            "performance"
+          ]
+        }
+      },
+      {
+        "seq": 3,
+        "sender": "orchestrator",
+        "recipient": "worker",
+        "type": "work_assigned",
+        "payload": {
+          "subtask_id": "auth-flows"
+        }
+      },
+      {
+        "seq": 4,
+        "sender": "worker",
+        "recipient": "critic",
+        "type": "artifact_submitted",
+        "payload": {
+          "subtask_id": "auth-flows",
+          "iteration": 1
+        }
+      },
+      {
+        "seq": 5,
+        "sender": "critic",
+        "recipient": "orchestrator",
+        "type": "review_posted",
+        "payload": {
+          "subtask_id": "auth-flows",
+          "verdict": "accept",
+          "feedback": "Accepted: 4 test case(s) present, all required sections and keywords covered.",
+          "iteration": 1
+        }
+      },
+      {
+        "seq": 6,
+        "sender": "orchestrator",
+        "recipient": "all",
+        "type": "subtask_accepted",
+        "payload": {
+          "subtask_id": "auth-flows",
+          "iteration": 1
+        }
+      },
+      {
+        "seq": 7,
+        "sender": "orchestrator",
+        "recipient": "worker",
+        "type": "work_assigned",
+        "payload": {
+          "subtask_id": "negative-edge"
+        }
+      },
+      {
+        "seq": 8,
+        "sender": "worker",
+        "recipient": "critic",
+        "type": "artifact_submitted",
+        "payload": {
+          "subtask_id": "negative-edge",
+          "iteration": 1
+        }
+      },
+      {
+        "seq": 9,
+        "sender": "critic",
+        "recipient": "orchestrator",
+        "type": "review_posted",
+        "payload": {
+          "subtask_id": "negative-edge",
+          "verdict": "accept",
+          "feedback": "Accepted: 4 test case(s) present, all required sections and keywords covered.",
+          "iteration": 1
+        }
+      },
+      {
+        "seq": 10,
+        "sender": "orchestrator",
+        "recipient": "all",
+        "type": "subtask_accepted",
+        "payload": {
+          "subtask_id": "negative-edge",
+          "iteration": 1
+        }
+      },
+      {
+        "seq": 11,
+        "sender": "orchestrator",
+        "recipient": "worker",
+        "type": "work_assigned",
+        "payload": {
+          "subtask_id": "security"
+        }
+      },
+      {
+        "seq": 12,
+        "sender": "worker",
+        "recipient": "critic",
+        "type": "artifact_submitted",
+        "payload": {
+          "subtask_id": "security",
+          "iteration": 1
+        }
+      },
+      {
+        "seq": 13,
+        "sender": "critic",
+        "recipient": "worker",
+        "type": "review_posted",
+        "payload": {
+          "subtask_id": "security",
+          "verdict": "rework",
+          "feedback": "Rework required: only 2 test case(s) found, minimum required is 4.",
+          "iteration": 1
+        }
+      },
+      {
+        "seq": 14,
+        "sender": "orchestrator",
+        "recipient": "worker",
+        "type": "revision_requested",
+        "payload": {
+          "subtask_id": "security",
+          "feedback": "Rework required: only 2 test case(s) found, minimum required is 4.",
+          "next_iteration": 2
+        }
+      },
+      {
+        "seq": 15,
+        "sender": "worker",
+        "recipient": "critic",
+        "type": "artifact_submitted",
+        "payload": {
+          "subtask_id": "security",
+          "iteration": 2
+        }
+      },
+      {
+        "seq": 16,
+        "sender": "critic",
+        "recipient": "orchestrator",
+        "type": "review_posted",
+        "payload": {
+          "subtask_id": "security",
+          "verdict": "accept",
+          "feedback": "Accepted: 4 test case(s) present, all required sections and keywords covered.",
+          "iteration": 2
+        }
+      },
+      {
+        "seq": 17,
+        "sender": "orchestrator",
+        "recipient": "all",
+        "type": "subtask_accepted",
+        "payload": {
+          "subtask_id": "security",
+          "iteration": 2
+        }
+      },
+      {
+        "seq": 18,
+        "sender": "orchestrator",
+        "recipient": "worker",
+        "type": "work_assigned",
+        "payload": {
+          "subtask_id": "performance"
+        }
+      },
+      {
+        "seq": 19,
+        "sender": "worker",
+        "recipient": "critic",
+        "type": "artifact_submitted",
+        "payload": {
+          "subtask_id": "performance",
+          "iteration": 1
+        }
+      },
+      {
+        "seq": 20,
+        "sender": "critic",
+        "recipient": "orchestrator",
+        "type": "review_posted",
+        "payload": {
+          "subtask_id": "performance",
+          "verdict": "accept",
+          "feedback": "Accepted: 4 test case(s) present, all required sections and keywords covered.",
+          "iteration": 1
+        }
+      },
+      {
+        "seq": 21,
+        "sender": "orchestrator",
+        "recipient": "all",
+        "type": "subtask_accepted",
+        "payload": {
+          "subtask_id": "performance",
+          "iteration": 1
+        }
+      },
+      {
+        "seq": 22,
+        "sender": "orchestrator",
+        "recipient": "all",
+        "type": "run_finished",
+        "payload": {
+          "statuses": {
+            "auth-flows": "accepted",
+            "negative-edge": "accepted",
+            "security": "accepted",
+            "performance": "accepted"
+          }
+        }
+      }
+    ],
+    "artifacts": {
+      "auth-flows": {
+        "subtask_id": "auth-flows",
+        "content": "# Authentication flows\n\n## Objective\n\nCover the core login API authentication flows: successful login with valid credentials, logout invalidating the session token, refreshing an expired access token with a refresh token, and the password reset flow issuing a time-limited token.\n\n## Test Cases\n\n| ID | Test Case | Steps | Expected Result |\n|----|-----------|-------|-----------------|\n| TC-1 | Valid credentials return 200 with access and refresh tokens | POST /login with a valid username and password | 200 OK; response contains access_token and refresh_token |\n| TC-2 | Logout invalidates the session token | POST /logout with a valid token, then reuse the token on a protected endpoint | Logout returns 200; reused token returns 401 |\n| TC-3 | Expired access token can be refreshed | Wait for access token expiry, then POST /refresh with the refresh token | 200 OK with a new access token; old token stays rejected |\n| TC-4 | Password reset issues a time-limited token | POST /password-reset for a known account, then use the emailed token to set a new password | Reset token valid for 15 minutes; login succeeds with the new password |\n\n## Acceptance Criteria\n\n- At least 4 test cases\n- Covers: token\n- Covers: logout",
+        "iteration": 1
+      },
+      "negative-edge": {
+        "subtask_id": "negative-edge",
+        "content": "# Negative and edge cases\n\n## Objective\n\nCover negative and edge cases for the login API: wrong password returns 401 without leaking which field was wrong, locked accounts return 403 with an unlock flow, expired session tokens return 401 with a clear error code, and empty or missing fields return 400 validation errors.\n\n## Test Cases\n\n| ID | Test Case | Steps | Expected Result |\n|----|-----------|-------|-----------------|\n| TC-1 | Wrong password returns 401 without leaking which field was wrong | POST /login with a valid username and wrong password | 401 with a generic 'invalid credentials' error |\n| TC-2 | Locked account returns 403 and offers an unlock flow | Exceed the failed-attempt threshold, then attempt login again | 403 account locked; unlock email/code flow is triggered |\n| TC-3 | Expired session token returns 401 with a clear error code | Call a protected endpoint with an expired token | 401 with error code TOKEN_EXPIRED |\n| TC-4 | Empty or missing fields return 400 validation errors | POST /login with missing username and empty password | 400 listing each missing/invalid field |\n\n## Acceptance Criteria\n\n- At least 4 test cases\n- Covers: 401\n- Covers: 400",
+        "iteration": 1
+      },
+      "security": {
+        "subtask_id": "security",
+        "content": "# Security tests\n\n## Objective\n\nCover security tests for the login API: SQL injection in the username field must be neutralized, rate limiting must block brute-force attempts, repeated failures must trigger account lockout, and a fresh session id must be issued after login to prevent session fixation.\n\n## Test Cases\n\n| ID | Test Case | Steps | Expected Result |\n|----|-----------|-------|-----------------|\n| TC-1 | SQL injection in the username field is neutralized | POST /login with username `' OR '1'='1` and any password | 401; no error leakage; query uses parameterized statements |\n| TC-2 | Rate limiting blocks brute-force attempts | Send 60 login attempts within one minute from a single IP | 429 Too Many Requests with Retry-After after the threshold |\n| TC-3 | Repeated failures trigger account lockout | Attempt login with wrong passwords 10 times in a row | Account locked; further attempts return 403 until unlock |\n| TC-4 | Fresh session id is issued after login (no session fixation) | Fix a session id pre-login, then complete login | Post-login session id differs from the pre-login one |\n\n## Acceptance Criteria\n\n- At least 4 test cases\n- Covers: sql injection\n- Covers: rate limiting\n\n## Revision Notes\n\nAddressed critic feedback from the previous review: Rework required: only 2 test case(s) found, minimum required is 4.",
+        "iteration": 2
+      },
+      "performance": {
+        "subtask_id": "performance",
+        "content": "# Performance tests\n\n## Objective\n\nCover performance tests for the login API: p95 login latency under 500ms at 100 concurrent users, sustained throughput of 1000 logins per minute without errors, token refresh staying within the latency budget under load, and graceful degradation with 503 plus Retry-After when the service is overloaded.\n\n## Test Cases\n\n| ID | Test Case | Steps | Expected Result |\n|----|-----------|-------|-----------------|\n| TC-1 | p95 login latency stays under 500ms at 100 concurrent users | Drive 100 concurrent login requests for 5 minutes | p95 latency < 500ms; zero 5xx errors |\n| TC-2 | Sustained throughput of 1000 logins per minute without errors | Ramp to 1000 logins/min and hold for 10 minutes | Throughput >= 1000/min; error rate < 0.1% |\n| TC-3 | Token refresh stays within the latency budget under load | Mix refresh calls into the load at 20% of traffic | p95 refresh latency < 300ms |\n| TC-4 | Overload degrades gracefully with 503 and Retry-After | Push traffic to 5x capacity until saturation | 503 with Retry-After header; recovery without restart |\n\n## Acceptance Criteria\n\n- At least 4 test cases\n- Covers: latency\n- Covers: throughput",
+        "iteration": 1
+      }
+    },
+    "reviews": [
+      {
+        "subtask_id": "auth-flows",
+        "verdict": "accept",
+        "feedback": "Accepted: 4 test case(s) present, all required sections and keywords covered.",
+        "iteration": 1
+      },
+      {
+        "subtask_id": "negative-edge",
+        "verdict": "accept",
+        "feedback": "Accepted: 4 test case(s) present, all required sections and keywords covered.",
+        "iteration": 1
+      },
+      {
+        "subtask_id": "security",
+        "verdict": "rework",
+        "feedback": "Rework required: only 2 test case(s) found, minimum required is 4.",
+        "iteration": 1
+      },
+      {
+        "subtask_id": "security",
+        "verdict": "accept",
+        "feedback": "Accepted: 4 test case(s) present, all required sections and keywords covered.",
+        "iteration": 2
+      },
+      {
+        "subtask_id": "performance",
+        "verdict": "accept",
+        "feedback": "Accepted: 4 test case(s) present, all required sections and keywords covered.",
+        "iteration": 1
+      }
+    ],
+    "iterations": {
+      "auth-flows": 1,
+      "negative-edge": 1,
+      "security": 2,
+      "performance": 1
+    },
+    "statuses": {
+      "auth-flows": "accepted",
+      "negative-edge": "accepted",
+      "security": "accepted",
+      "performance": "accepted"
+    }
+  }
+}
